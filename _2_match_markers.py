@@ -1,10 +1,34 @@
 from pathlib import Path
-from mri_distortion_toolkit.utilities import get_all_files
+from mri_distortion_toolkit.utilities import get_all_files, plot_distortion_xyz_hist
+from mri_distortion_toolkit.MarkerAnalysis import MarkerVolume, MatchedMarkerVolumes
 import dicom2nifti
 
+this_file_loc = Path(__file__).parent.resolve()
+data_loc = this_file_loc / '_segmentation_data'
 
+# ground truth centroids
+ground_truth_volume = MarkerVolume(data_loc / 'GOAM_CT' / 'slicer_centroids.mrk.json')
+# ground_truth_volume.plot_3D_markers(title='CT')
 
-data_loc = Path(r'C:\Users\Brendan\cloudstor\Shared\MRI-Linac Experimental Data\GOAM-01092022_Genesis\GOAM\PhilipPhantom_CT\2022-08__Studies\Philips^Distortion_ZZZTEST_CT_2022-08-31_165114_RT^01.Pelvis.Customized.(Adult)_Pelvis..2.0..HD.FoV_n230__00000')
-all_files = get_all_files(data_loc, file_extension='DCM')
+# distorted centroids
+distorted_volume1 = MarkerVolume(data_loc / 'GOAM_MRI' / '2022-08__Studies/GOAM^ImageX_ZZZIMAGEX_MR_2022-08-31_172341_._T2.3D.Tra.2min_n301__00000' / 'slicer_centroids.mrk.json')
+# distorted_volume.plot_3D_markers(title='MR1')
 
-dicom2nifti.dicom_series_to_nifti(data_loc, data_loc / 'gah', reorient_nifti=True)
+distorted_volume2 = MarkerVolume(data_loc / 'GOAM_MRI' / '2022-08__Studies/GOAM^ImageX_ZZZIMAGEX_MR_2022-08-31_172341_._T2.3D.Tra.2min_n301__00001' / 'slicer_centroids.mrk.json')
+# distorted_volume.plot_3D_markers(title='MR1')
+
+distorted_volume3 = MarkerVolume(data_loc / 'GOAM_MRI' / '2022-08__Studies/GOAM^ImageX_ZZZIMAGEX_MR_2022-08-31_172341_._T2.3D.Tra.2min_n301__00002' / 'slicer_centroids.mrk.json')
+# distorted_volume.plot_3D_markers(title='MR1')
+
+# matched volumes
+matched_volume1 = MatchedMarkerVolumes(ground_truth_volume, distorted_volume1, n_refernce_markers=7)
+# matched_volume1.plot_3D_markers()
+plot_distortion_xyz_hist(matched_volume1)
+
+matched_volume2 = MatchedMarkerVolumes(ground_truth_volume, distorted_volume2, n_refernce_markers=7)
+matched_volume2.plot_3D_markers()
+plot_distortion_xyz_hist(matched_volume2)
+
+matched_volume3 = MatchedMarkerVolumes(ground_truth_volume, distorted_volume3, n_refernce_markers=7)
+matched_volume3.plot_3D_markers()
+plot_distortion_xyz_hist(matched_volume3)
