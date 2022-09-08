@@ -47,9 +47,15 @@ class philips_phantom:
 
     @staticmethod
     def get_alignment_coords(_markervolume):
+        """
+        Marker to align MR/ground truth is the central column, bottom row, central slice
+
+        :param _markervolume:
+        :return:
+        """
 
         middleX = (_markervolume.MarkerCentroids.x.max() + _markervolume.MarkerCentroids.x.min()) / 2
-        maxY = _markervolume.MarkerCentroids.y.max()
+        maxY = _markervolume.MarkerCentroids.y.nlargest(100).median()
         middleZ = (_markervolume.MarkerCentroids.z.max() + _markervolume.MarkerCentroids.z.min()) / 2
 
         return middleX, maxY, middleZ
