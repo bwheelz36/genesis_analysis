@@ -58,8 +58,10 @@ G_x_Harmonics, G_y_Harmonics, G_z_Harmonics, B0_Harmonics = calculate_harmonics(
                                                                                 n_order=5,
                                                                                 norm=normalisation_factor)
 
-report_harmonics = MRI_QA_Reporter(gradient_harmonics=[G_x_Harmonics.harmonics, G_y_Harmonics.harmonics, G_z_Harmonics.harmonics],
-                         r_outer=190,
-                         dicom_data=philips_MR_uncorrected.dicom_data,
-                         tests_to_run=Elekta_Distortion_tests)
+report_harmonics = MRI_QA_Reporter(gradient_harmonics=[G_x_Harmonics.harmonics,
+                                                       G_y_Harmonics.harmonics,
+                                                       G_z_Harmonics.harmonics],
+                                     r_outer=190,
+                                     dicom_data=philips_MR_uncorrected.dicom_data,
+                                     tests_to_run=Elekta_Distortion_tests)
 report_harmonics.write_html_report()

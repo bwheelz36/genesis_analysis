@@ -2,7 +2,6 @@ import numpy
 import numpy as np
 from mri_distortion_toolkit.MarkerAnalysis import MarkerVolume
 
-
 class philips_phantom:
 
     @staticmethod
