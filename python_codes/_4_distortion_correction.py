@@ -38,7 +38,7 @@ GDC = ImageDomainDistortionCorrector(ImageDirectory=dis_data_loc.resolve(),
                                                     G_y_Harmonics.harmonics,
                                                     G_z_Harmonics.harmonics],
                                 dicom_data=mr_volume_no_DC.dicom_data,
-                                correct_through_plane=False)
+                                correct_through_plane=True)
 
 GDC.correct_all_images()
 GDC.save_all_images()  # saves as png so you can quickly inspect results
@@ -48,3 +48,5 @@ GDC.save_all_images_as_dicom()  # saves as dicom which can be read into analysis
 corrected_volume = MarkerVolume(dis_data_loc / 'corrected_dcm')  # this takes a while
 corrected_volume.export_to_slicer()
 corrected_volume.save_dicom_data()
+
+matched_vol_corrected = MatchedMarkerVolumes(ct_volume, corrected_volume, ref)
