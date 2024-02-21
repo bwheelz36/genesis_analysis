@@ -1,1 +1,2 @@
 mri_distortion_toolkit
+jupyter
