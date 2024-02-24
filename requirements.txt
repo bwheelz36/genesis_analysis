@@ -1,2 +1,3 @@
 mri_distortion_toolkit
 jupyter
+nbconvert
